@@ -1,3 +1,16 @@
+```
+git clone git@github.com:s-union/shift_front.git
+
+cd <プロジェクト名>
+
+npm install
+
+# サーバを開発環境で起動
+npm run dev
+```
+
+---
+## 以下はNextjsの自動生成
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
