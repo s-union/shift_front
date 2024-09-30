@@ -7,7 +7,7 @@ export async function fetchShifts(id: string): Promise<Shift[]> {
     const response = await fetch(ApiUrl + id);
     // responseが404の場合はエラーを投げる
     if (!response.ok) {
-        return [];
+        throw new Error("404 Not Found");
     }
     const data = await response.json();
     // data.end_timeが現在時刻より後のものだけを返す
