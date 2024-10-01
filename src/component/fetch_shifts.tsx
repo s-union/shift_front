@@ -1,6 +1,9 @@
 import { Shift } from "@/src/types/shift";
 
-const ApiUrl: string = "http://localhost:8000/api/shift/";
+// ダミー回答をするtestAPI (立ち上げるのめんどくさいので)
+// studentIDはそのままを返す/その他は適当な定数を返す
+const ApiUrl: string = "https://script.google.com/macros/s/AKfycbyjjaRPoJySEOk_LkoSPsdyuLpLDXbKFl87gsQ_VbEsYZGIPEryEvkCnqU7QDwwvFPsww/exec?student_id=";
+// const ApiUrl: string = "http://localhost:8000/api/shift/";
 
 // 引数としてidを受け取り、そのstudent_idに対応するシフト情報の配列を返す
 export async function fetchShifts(id: string): Promise<Shift[]> {
