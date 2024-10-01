@@ -10,14 +10,14 @@ import Loading from '@/src/app/loading';
 
 const modalStyle = {
     overlay: {
-        position: "fixed",
+        position: "fixed" as "fixed",
         top: 0,
         left: 0,
         backgroundColor: "rgba(0,0,0,0.85)"
     },
     content: {
-        position: "relative",
-        textAlign: "center",
+        position: "relative" as "relative",
+        textAlign: "center" as "center",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
