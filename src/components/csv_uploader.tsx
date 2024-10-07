@@ -5,7 +5,7 @@ import { CsvRes } from '../types/csvRes';
 const PostUrl = '#';
 
 const CsvUploader = () => {
-    const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File>();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {

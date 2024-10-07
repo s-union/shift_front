@@ -1,6 +1,6 @@
 "use client";
-import CsvUploader from "@/src/component/csv_uploader";
-import ModalEx from "@/src/component/modalEx";
+import CsvUploader from "@/src/components/csv_uploader";
+import ModalEx from "@/src/components/modalEx";
 
 // 
 

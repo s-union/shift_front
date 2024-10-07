@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation'; // ここを変更
-import { fetchShifts } from '@/src/component/fetch_shifts';
+import { fetchShifts } from '@/src/components/fetch_shifts';
 import { Shift } from '../types/shift';
-import ShiftCard from '@/src/component/shift_card';
+import ShiftCard from '@/src/components/shift_card';
 import Modal from 'react-modal';
 import Link from 'next/link';
 import Loading from '@/src/app/loading';
