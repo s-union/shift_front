@@ -48,15 +48,15 @@ export default function ShiftListPage() {
     }, [student_id]);
 
     return (
-        <div>
+        <div className="min-h-screen">
             {shifts === null ? (
                 <Loading />
             ) : (
                 <>
-                    <p className="p-1 m-8">{student_id}</p>
+                    <p className="p-1 m-8 text-lg font-bold inline">{student_id}</p>
                     {shifts.map((shift: Shift, index: number) => (
-                        <div key={index} className="mx-auto max-w-sm rounded overflow-hidden shadow-lg p-4 bg-white">
-                            {index === 0 && <h2 className="mx-auto text-center text-2xl font-bold mb-2">直近のシフト</h2>}
+                        <div key={index} className="mx-auto max-w-sm overflow-hidden p-4">
+                            {index === 0 && <h2 className="mx-auto text-center text-2xl font-bold mb-2 text-red-500">直近のシフト</h2>}
                             {index === 1 && <h2 className="mx-auto text-center text-2xl font-bold mt-8 mb-6">以降のシフト</h2>}
                             <ShiftCard shift={shift} />
                         </div>

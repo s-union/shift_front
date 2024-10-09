@@ -6,7 +6,7 @@
 // CsvRes 型を定義
 import { CsvRes } from "@/src/types/csvRes";
 
-export default function ParseCsv(csv: string): CsvRes[] {
+export default function ParseCsv(csv: string, date: string): CsvRes[] {
   const lines = csv.split('\r\n');
   const res: CsvRes[] = [];
   const start_time = lines[0].split(',').slice(1);
@@ -17,9 +17,10 @@ export default function ParseCsv(csv: string): CsvRes[] {
       if (values[j] !== '') {
         res.push({
           student_id: student_id,
-          detail_id: parseInt(values[j], 10),
+          details_id: parseInt(values[j], 10),
           start_time: start_time[j - 1],
           end_time: start_time[j],
+          date: date
         });
       }
     }

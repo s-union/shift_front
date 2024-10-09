@@ -1,6 +1,6 @@
 import { Shift } from "@/src/types/shift";
 
-const ApiUrl: string = "http://localhost:8000/api/shift/";
+const ApiUrl: string = process.env.NEXT_PUBLIC_BACKEND_URL + "/api/shift/";
 
 // 引数としてidを受け取り、そのstudent_idに対応するシフト情報の配列を返す
 export async function fetchShifts(id: string): Promise<Shift[]> {

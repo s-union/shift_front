@@ -31,26 +31,26 @@ export default function ShiftFormPage() {
     const isDisabled = student_id.trim() === "";
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 mb-8 rounded-lg shadow-md">
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className="min-h-screen flex items-center justify-center bg-white">
+            <form onSubmit={handleSubmit} className="max-w-md w-full mx-auto bg-white p-8 mb-8 rounded-lg shadow-lg border-4">
+                <div className="mb-6">
+                    <label className="block text-lg font-bold mb-2">
                         学籍番号:
                     </label>
                     <input
                         type="text"
                         value={student_id}
                         onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105"
                     />
                 </div>
                 <div className="flex items-center justify-between">
                     <input
                         type="submit"
                         value="送信"
-                        className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isDisabled ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'
+                        className={`font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105 ${isDisabled ? 'bg-gray-600 cursor-not-allowed' : 'bg-cyan-500 hover:bg-cyan-600 text-white'
                             }`}
-                        disabled={isDisabled} // ここで空欄の場合にボタンを無効化
+                        disabled={isDisabled}
                     />
                 </div>
             </form>

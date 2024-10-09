@@ -1,6 +1,7 @@
 export type CsvRes = {
     student_id: string;
-    detail_id: number;
+    details_id: number;
     start_time: string;
     end_time: string;
+    date: string;
 };

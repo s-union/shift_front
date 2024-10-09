@@ -5,7 +5,7 @@ type Res = { token: string };
 
 const Page = () => {
     const handlePostRequest = async () => {
-        const target_url = 'http://127.0.0.1:8000/api/login'; // 適当なURLに置き換えてください
+        const target_url = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/login'; // 適当なURLに置き換えてください
         const body = {
             email: 'test@test.com',
             password: 'password'
