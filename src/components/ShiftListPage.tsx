@@ -32,6 +32,7 @@ const modalStyle = {
 export default function ShiftListPage() {
     const [shifts, setShifts] = useState<Shift[] | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false); // 追加
+    const [currentTime, setCurrentTime] = useState<string>('');
     const searchParams = useSearchParams();
     const student_id = searchParams.get('student_id');
 
@@ -47,13 +48,30 @@ export default function ShiftListPage() {
         }
     }, [student_id]);
 
+    useEffect(() => {
+        const updateCurrentTime = () => {
+            const now = new Date();
+            const formattedTime = now.toLocaleString('ja-JP', {
+                timeZone: 'Asia/Tokyo',
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+            setCurrentTime(formattedTime);
+        };
+
+        updateCurrentTime(); // 初回実行
+        const intervalId = setInterval(updateCurrentTime, 60000); // 1分ごとに更新
+
+        return () => clearInterval(intervalId); // クリーンアップ
+    }, []);
+
     return (
         <div className="min-h-screen">
             {shifts === null ? (
                 <Loading />
             ) : (
                 <>
-                    <p className="p-1 m-8 text-lg font-bold inline">{student_id}</p>
+                    <p className="p-1 m-8 text-lg font-bold inline">{student_id}　　　現在時刻 {currentTime}</p>
                     {shifts.map((shift: Shift, index: number) => (
                         <div key={index} className="mx-auto max-w-sm overflow-hidden p-4">
                             {index === 0 && <h2 className="mx-auto text-center text-2xl font-bold mb-2 text-red-500">直近のシフト</h2>}
