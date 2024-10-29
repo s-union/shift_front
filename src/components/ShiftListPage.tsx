@@ -1,92 +1,64 @@
-"use client";
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation'; // ここを変更
-import { fetchShifts } from '@/src/components/fetch_shifts';
-import { Shift } from '../types/shift';
-import ShiftCard from '@/src/components/shift_card';
-import Modal from 'react-modal';
-import Link from 'next/link';
-import Loading from '@/src/app/loading';
+'use client';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-const modalStyle = {
-    overlay: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        backgroundColor: "rgba(0,0,0,0.85)"
-    },
-    content: {
-        position: "relative",
-        textAlign: "center",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "80%",
-        maxWidth: "30rem",
-        backgroundColor: "white",
-        borderRadius: "1rem",
-        padding: "1.5rem"
-    }
-};
+interface Shift {
+    startTime: string;
+    endTime: string;
+    description: string;
+}
+
+const mockShiftData: Shift[] = [
+    { startTime: '08:00', endTime: '12:00', description: '午前シフト' },
+    { startTime: '13:00', endTime: '17:00', description: '午後シフト' },
+    { startTime: '18:00', endTime: '22:00', description: '夜間シフト' },
+];
 
 export default function ShiftListPage() {
-    const [shifts, setShifts] = useState<Shift[] | null>(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false); // 追加
-    const [currentTime, setCurrentTime] = useState<string>('');
-    const searchParams = useSearchParams();
-    const student_id = searchParams.get('student_id');
+    const [studentId, setStudentId] = useState<string>('');
+    const router = useRouter();
 
     useEffect(() => {
-        if (student_id) {
-            fetchShifts(student_id)
-                .then(data => {
-                    setShifts(data);
-                })
-                .catch(() => {
-                    setModalIsOpen(true); // 404エラーの場合にモーダルを開く
-                });
-        }
-    }, [student_id]);
-
-    useEffect(() => {
-        const updateCurrentTime = () => {
-            const now = new Date();
-            const formattedTime = now.toLocaleString('ja-JP', {
-                timeZone: 'Asia/Tokyo',
-                hour: '2-digit',
-                minute: '2-digit',
-            });
-            setCurrentTime(formattedTime);
-        };
-
-        updateCurrentTime(); // 初回実行
-        const intervalId = setInterval(updateCurrentTime, 60000); // 1分ごとに更新
-
-        return () => clearInterval(intervalId); // クリーンアップ
+        const cachedStudentId = localStorage.getItem('student_id');
+        if (cachedStudentId) setStudentId(cachedStudentId);
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('student_id');
+        router.push('/');
+    };
+
     return (
-        <div className="min-h-screen">
-            {shifts === null ? (
-                <Loading />
-            ) : (
-                <>
-                    <p className="p-1 m-8 text-lg font-bold inline">{student_id}　　　現在時刻 {currentTime}</p>
-                    {shifts.map((shift: Shift, index: number) => (
-                        <div key={index} className="mx-auto max-w-sm overflow-hidden p-4">
-                            {index === 0 && <h2 className="mx-auto text-center text-2xl font-bold mb-2 text-red-500">直近のシフト</h2>}
-                            {index === 1 && <h2 className="mx-auto text-center text-2xl font-bold mt-8 mb-6">以降のシフト</h2>}
-                            <ShiftCard shift={shift} />
+        <div className='min-h-screen bg-gray-50 p-8'>
+            <div className='max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg'>
+                <h1 className='text-2xl font-bold mb-6 text-center'>シフト一覧</h1>
+
+                <div className='relative'>
+                    <div className='absolute top-0 left-4 w-1 bg-gray-300 h-full'></div>
+                    {mockShiftData.map((shift, index) => (
+                        <div key={index} className='flex items-start mb-8'>
+                            <div className='w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold'>
+                                {index + 1}
+                            </div>
+                            <div className='ml-6'>
+                                <p className='text-gray-500'>{`${shift.startTime} - ${shift.endTime}`}</p>
+                                <p className='text-lg font-semibold'>{shift.description}</p>
+                                <button className='mt-2 px-4 py-2 text-sm text-cyan-600 border border-cyan-600 rounded-lg hover:bg-cyan-50'>
+                                    詳細
+                                </button>
+                            </div>
                         </div>
                     ))}
-                </>
-            )}
-            <Modal isOpen={modalIsOpen} style={modalStyle}>
-                <h2 className="font-bold">エラー：シフト内に存在しません</h2>
-                <Link href="/">
-                    <button className="mt-6 ml-70p focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => setModalIsOpen(false)}>戻る</button>
-                </Link>
-            </Modal>
+                </div>
+
+                <div className='mt-6 text-center'>
+                    <button onClick={handleLogout} className='text-red-500 hover:underline'>
+                        ログアウト
+                    </button>
+                </div>
+
+                <div className='mt-4 text-sm text-gray-500 text-center'>※ こちらは規定に従ったシフト情報です。</div>
+            </div>
         </div>
     );
 }
