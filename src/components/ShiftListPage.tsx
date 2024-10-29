@@ -1,9 +1,21 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaRegCalendarAlt } from 'react-icons/fa'; // アイコン例
 
-export default function ShiftFormPage() {
+interface Shift {
+    id: number;
+    startTime: string;
+    endTime: string;
+    note: string;
+}
+
+const shifts: Shift[] = [
+    { id: 1, startTime: '09:00', endTime: '12:00', note: '' },
+    { id: 2, startTime: '13:00', endTime: '17:00', note: '' },
+    { id: 3, startTime: '18:00', endTime: '22:00', note: '' },
+];
+
+export default function ShiftListPage() {
     const [studentId, setStudentId] = useState<string>('');
     const router = useRouter();
 
@@ -20,85 +32,49 @@ export default function ShiftFormPage() {
         localStorage.setItem('student_id', value);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (studentId.trim() !== '') {
-            router.push(`/shift?student_id=${studentId}`);
-        }
+    const handleDetail = (shiftId: number) => {
+        alert(`詳細ボタンが押されました: シフトID ${shiftId}`);
     };
 
-    const isDisabled = studentId.trim() === '';
-
     return (
-        <div className='min-h-screen bg-gray-50 flex flex-col items-center py-8 px-4'>
-            <h1 className='text-2xl font-bold text-gray-800 mb-6'>シフト予約</h1>
+        <div className='min-h-screen flex flex-col items-center justify-center bg-gray-100 py-8'>
+            <div className='max-w-lg w-full bg-white shadow-lg rounded-lg p-6 mb-8 border'>
+                <label className='block text-lg font-bold mb-2'>学籍番号:</label>
+                <input
+                    type='text'
+                    value={studentId}
+                    onChange={handleChange}
+                    className='w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition'
+                    placeholder='学籍番号を入力してください'
+                />
+            </div>
 
-            <form onSubmit={handleSubmit} className='w-full max-w-lg bg-white shadow-md rounded-2xl p-6 border border-gray-200'>
-                <div className='mb-5'>
-                    <label className='block text-lg font-semibold text-gray-700 mb-2'>学籍番号</label>
-                    <input
-                        type='text'
-                        value={studentId}
-                        onChange={handleChange}
-                        placeholder='例: 12345678'
-                        className='w-full py-3 px-4 border rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500 transition transform hover:scale-105'
-                    />
-                </div>
-
-                <div className='flex justify-end mt-4'>
-                    <button
-                        type='submit'
-                        disabled={isDisabled}
-                        className={`px-6 py-3 rounded-lg font-semibold text-white shadow-md transition-all transform hover:scale-105 ${
-                            isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-cyan-500 hover:bg-cyan-600'
-                        }`}
+            <div className='w-full max-w-lg'>
+                {shifts.map((shift) => (
+                    <div
+                        key={shift.id}
+                        className='flex justify-between items-center bg-white shadow-md p-4 mb-4 rounded-lg border hover:shadow-lg transition'
                     >
-                        送信
-                    </button>
-                </div>
-            </form>
-
-            {/* シフトのスケジュール表示 */}
-            <div className='w-full max-w-lg mt-8'>
-                <h2 className='text-xl font-bold text-gray-800 mb-4'>スケジュール</h2>
-
-                <div className='space-y-4'>
-                    <ShiftCard date='4月22日' time='10:00 - 11:00 AM' title='Tooth Scaling' status='予約済み' multiple />
-                    <ShiftCard
-                        date='4月20日'
-                        time='09:00 - 10:00 AM'
-                        title='Simple Extractions'
-                        status='未払い'
-                        payment='$240.00'
-                        multiple
-                    />
-                </div>
+                        <div>
+                            <div className='text-xl font-semibold'>
+                                {shift.startTime} - {shift.endTime}
+                            </div>
+                            <input
+                                type='text'
+                                value={shift.note}
+                                placeholder='メモを追加'
+                                className='w-full mt-2 px-2 py-1 border rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500'
+                            />
+                        </div>
+                        <button
+                            onClick={() => handleDetail(shift.id)}
+                            className='ml-4 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition'
+                        >
+                            詳細
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
     );
 }
-
-type ShiftCardProps = {
-    date: string;
-    time: string;
-    title: string;
-    status: string;
-    multiple?: boolean;
-    payment?: string;
-};
-
-const ShiftCard: React.FC<ShiftCardProps> = ({ date, time, title, status, multiple, payment }) => (
-    <div className='bg-white shadow-md rounded-xl p-4 border border-gray-200 flex justify-between items-center'>
-        <div>
-            <p className='text-sm text-gray-500'>{date}</p>
-            <h3 className='text-lg font-semibold text-gray-800'>{title}</h3>
-            <p className='text-sm text-gray-500'>{time}</p>
-            {multiple && <span className='text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-lg'>MULTIPLE</span>}
-        </div>
-
-        <div className='text-right'>
-            <p className={`text-sm font-semibold ${status === '未払い' ? 'text-red-500' : 'text-green-500'}`}>{status}</p>
-            {payment && <button className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'>支払う</button>}
-        </div>
-    </div>
-);
