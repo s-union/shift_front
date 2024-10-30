@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation'; // ここを変更
 import { fetchShifts } from '@/src/components/fetch_shifts';
@@ -10,23 +10,23 @@ import Loading from '@/src/app/loading';
 
 const modalStyle = {
     overlay: {
-        position: "fixed",
+        position: 'fixed',
         top: 0,
         left: 0,
-        backgroundColor: "rgba(0,0,0,0.85)"
+        backgroundColor: 'rgba(0,0,0,0.85)',
     },
     content: {
-        position: "relative",
-        textAlign: "center",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "80%",
-        maxWidth: "30rem",
-        backgroundColor: "white",
-        borderRadius: "1rem",
-        padding: "1.5rem"
-    }
+        position: 'relative',
+        textAlign: 'center',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        maxWidth: '30rem',
+        backgroundColor: 'white',
+        borderRadius: '1rem',
+        padding: '1.5rem',
+    },
 };
 
 export default function ShiftListPage() {
@@ -39,7 +39,7 @@ export default function ShiftListPage() {
     useEffect(() => {
         if (student_id) {
             fetchShifts(student_id)
-                .then(data => {
+                .then((data) => {
                     setShifts(data);
                 })
                 .catch(() => {
@@ -66,25 +66,39 @@ export default function ShiftListPage() {
     }, []);
 
     return (
-        <div className="min-h-screen">
+        <div className='min-h-screen bg-gray-50 p-6'>
             {shifts === null ? (
                 <Loading />
             ) : (
                 <>
-                    <p className="p-1 m-8 text-lg font-bold inline">{student_id}　　　現在時刻 {currentTime}</p>
+                    <div className='flex justify-between items-center mb-6'>
+                        <p className='text-lg font-semibold text-gray-700'>
+                            {student_id}　|　現在時刻 {currentTime}
+                        </p>
+                    </div>
                     {shifts.map((shift: Shift, index: number) => (
-                        <div key={index} className="mx-auto max-w-sm overflow-hidden p-4">
-                            {index === 0 && <h2 className="mx-auto text-center text-2xl font-bold mb-2 text-red-500">直近のシフト</h2>}
-                            {index === 1 && <h2 className="mx-auto text-center text-2xl font-bold mt-8 mb-6">以降のシフト</h2>}
+                        <div
+                            key={index}
+                            className={`mx-auto max-w-lg p-6 bg-white rounded-lg shadow-md mb-6 ${
+                                index === 0 ? 'border-l-4 border-blue-500' : ''
+                            }`}
+                        >
+                            {index === 0 && <h2 className='text-xl font-bold text-blue-600 mb-4'>直近のシフト</h2>}
+                            {index === 1 && <h2 className='text-xl font-bold text-gray-600 mt-8 mb-4'>以降のシフト</h2>}
                             <ShiftCard shift={shift} />
                         </div>
                     ))}
                 </>
             )}
             <Modal isOpen={modalIsOpen} style={modalStyle}>
-                <h2 className="font-bold">エラー：シフト内に存在しません</h2>
-                <Link href="/">
-                    <button className="mt-6 ml-70p focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => setModalIsOpen(false)}>戻る</button>
+                <h2 className='font-bold text-red-700'>エラー：シフト内に存在しません</h2>
+                <Link href='/'>
+                    <button
+                        className='mt-6 px-6 py-2 text-white bg-red-600 rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300'
+                        onClick={() => setModalIsOpen(false)}
+                    >
+                        戻る
+                    </button>
                 </Link>
             </Modal>
         </div>
