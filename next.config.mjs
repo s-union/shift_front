@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+    experimental: {
+        serverActions: {
+            allowedOrigins: ['http://shift-api-2024.nodaridaisai.com'],
+        },
+    },
+
     async headers() {
         return [
             {
