@@ -11,7 +11,7 @@ const nextConfig = {
                     },
                     {
                         key: "Access-Control-Allow-Origin",
-                        value: NEXT_PUBLIC_BACKEND_URL, // 許可するURLを指定
+                        value: "http://shift-api-2024.nodaridaisai.com", // 許可するURLを指定
                     },
                     {
                         key: "Access-Control-Allow-Methods",
