@@ -6,6 +6,10 @@ const nextConfig = {
                 source: "/(.*)", // 全てのパスに対して適用
                 headers: [
                     {
+                        "key": "Access-Control-Allow-Credentials",
+                        "value": "true"
+                    },
+                    {
                         key: "Access-Control-Allow-Origin",
                         value: NEXT_PUBLIC_BACKEND_URL, // 許可するURLを指定
                     },
