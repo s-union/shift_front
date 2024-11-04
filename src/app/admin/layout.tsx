@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Modal from 'react-modal';
-const modalStyle = {
+const modalStyle: ReactModal.Styles = {
     overlay: {
         position: "fixed",
         top: 0,
