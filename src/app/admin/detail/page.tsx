@@ -5,9 +5,9 @@ import Modal from 'react-modal';
 
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/details_csv';
-const modalStyle = {
+const modalStyle: ReactModal.Styles = {
     overlay: {
-        position: "fixed",
+        position: 'fixed',
         top: 0,
         left: 0,
         backgroundColor: "rgba(0,0,0,0.85)"

@@ -4,7 +4,7 @@ import ParseCsv from "./parse_csv";
 import { useRouter } from 'next/navigation';
 import { CsvRes } from '../types/csvRes';
 import Modal from 'react-modal';
-const modalStyle = {
+const modalStyle: ReactModal.Styles = {
     overlay: {
         position: "fixed",
         top: 0,

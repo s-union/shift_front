@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import Link from 'next/link';
 import Loading from '@/src/app/loading';
 
-const modalStyle = {
+const modalStyle: ReactModal.Styles = {
     overlay: {
         position: 'fixed',
         top: 0,
