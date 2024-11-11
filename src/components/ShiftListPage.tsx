@@ -1,12 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation'; // ここを変更
+import { useSearchParams } from 'next/navigation';
 import { fetchShifts } from '@/src/components/fetch_shifts';
 import { Shift } from '../types/shift';
 import ShiftCard from '@/src/components/shift_card';
 import Modal from 'react-modal';
 import Link from 'next/link';
 import Loading from '@/src/app/loading';
+import Timeline from '@/src/components/Timeline'; // 新しいコンポーネントをインポート
 
 const modalStyle: ReactModal.Styles = {
     overlay: {
@@ -32,7 +33,7 @@ const modalStyle: ReactModal.Styles = {
 
 export default function ShiftListPage() {
     const [shifts, setShifts] = useState<Shift[] | null>(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false); // 追加
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentTime, setCurrentTime] = useState<string>('');
     const searchParams = useSearchParams();
     const student_id = searchParams.get('student_id');
@@ -44,7 +45,7 @@ export default function ShiftListPage() {
                     setShifts(data);
                 })
                 .catch(() => {
-                    setModalIsOpen(true); // 404エラーの場合にモーダルを開く
+                    setModalIsOpen(true);
                 });
         }
     }, [student_id]);
@@ -60,10 +61,10 @@ export default function ShiftListPage() {
             setCurrentTime(formattedTime);
         };
 
-        updateCurrentTime(); // 初回実行
-        const intervalId = setInterval(updateCurrentTime, 60000); // 1分ごとに更新
+        updateCurrentTime();
+        const intervalId = setInterval(updateCurrentTime, 60000);
 
-        return () => clearInterval(intervalId); // クリーンアップ
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
@@ -74,7 +75,7 @@ export default function ShiftListPage() {
                 <>
                     <div className='flex justify-between items-center mb-8'>
                         <p className='text-xl font-semibold text-gray-800'>
-                            {student_id}　|　現在時刻 {currentTime}
+                            {student_id} | 現在時刻 {currentTime}
                         </p>
                     </div>
                     {shifts.map((shift: Shift, index: number) => (
@@ -89,6 +90,12 @@ export default function ShiftListPage() {
                             <ShiftCard shift={shift} />
                         </div>
                     ))}
+                    <div className='mt-8'>
+                        <h2 className='text-2xl font-bold text-gray-800 mb-4'>今日のタイムライン</h2>
+                        <div className='relative space-y-2'>
+                            <Timeline shifts={shifts} />
+                        </div>
+                    </div>
                 </>
             )}
             <Modal isOpen={modalIsOpen} style={modalStyle}>
