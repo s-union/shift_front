@@ -13,19 +13,20 @@ const modalStyle: ReactModal.Styles = {
         position: 'fixed',
         top: 0,
         left: 0,
-        backgroundColor: 'rgba(0,0,0,0.85)',
+        backgroundColor: 'rgba(0,0,0,0.75)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     content: {
         position: 'relative',
         textAlign: 'center',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '80%',
-        maxWidth: '30rem',
-        backgroundColor: 'white',
-        borderRadius: '1rem',
-        padding: '1.5rem',
+        width: '90%',
+        maxWidth: '25rem',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '0.5rem',
+        padding: '2rem',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     },
 };
 
@@ -66,25 +67,25 @@ export default function ShiftListPage() {
     }, []);
 
     return (
-        <div className='min-h-screen bg-gray-50 p-6'>
+        <div className='min-h-screen bg-gray-100 p-8'>
             {shifts === null ? (
                 <Loading />
             ) : (
                 <>
-                    <div className='flex justify-between items-center mb-6'>
-                        <p className='text-lg font-semibold text-gray-700'>
+                    <div className='flex justify-between items-center mb-8'>
+                        <p className='text-xl font-semibold text-gray-800'>
                             {student_id}　|　現在時刻 {currentTime}
                         </p>
                     </div>
                     {shifts.map((shift: Shift, index: number) => (
                         <div
                             key={index}
-                            className={`mx-auto max-w-lg p-6 bg-white rounded-lg shadow-md mb-6 ${
+                            className={`mx-auto max-w-lg p-6 bg-white rounded-lg shadow-lg mb-8 ${
                                 index === 0 ? 'border-l-4 border-blue-500' : ''
                             }`}
                         >
-                            {index === 0 && <h2 className='text-xl font-bold text-blue-600 mb-4'>直近のシフト</h2>}
-                            {index === 1 && <h2 className='text-xl font-bold text-gray-600 mt-8 mb-4'>以降のシフト</h2>}
+                            {index === 0 && <h2 className='text-2xl font-bold text-blue-600 mb-4'>直近のシフト</h2>}
+                            {index === 1 && <h2 className='text-2xl font-bold text-gray-600 mt-8 mb-4'>以降のシフト</h2>}
                             <ShiftCard shift={shift} />
                         </div>
                     ))}
