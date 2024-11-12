@@ -36,7 +36,7 @@ const Timeline: React.FC<TimelineProps> = ({ shifts }) => {
                             const shiftEndMinutes = parseInt(shift.end_time.split(':')[1], 10);
 
                             const startOffset = ((shiftStartHour - startHour) * 60 + shiftStartMinutes) / totalMinutes * 100;
-                            const endOffset = ((shiftEndHour - startHour) * 60 + shiftEndMinutes) / totalMinutes * 100;
+                            // const endOffset = ((shiftEndHour - startHour) * 60 + shiftEndMinutes) / totalMinutes * 100;
 
                             if (minute >= (shiftStartHour - startHour) * 60 + shiftStartMinutes && minute < (shiftEndHour - startHour) * 60 + shiftEndMinutes) {
                                 return (
@@ -45,7 +45,7 @@ const Timeline: React.FC<TimelineProps> = ({ shifts }) => {
                                         className='absolute left-1/4 w-1/2'
                                         style={{
                                             top: `${startOffset}%`,
-                                            height: `${endOffset - startOffset}%`,
+                                            height: `350%`,
                                             backgroundColor: 'green',
                                         }}
                                     ></div>
